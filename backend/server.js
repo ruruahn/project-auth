@@ -50,8 +50,7 @@ const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http:
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("origin", origin, allowedDomains, allowedDomains.includes);
-      if (allowedDomains.includes(origin)) {
+      if (!origin || allowedDomains.includes(origin)) {
         return callback(null, true);
       } else {
         return callback(new Error("This domain is not allowed"), false);
