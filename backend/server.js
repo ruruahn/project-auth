@@ -40,13 +40,13 @@ const app = express();
 // v2 - Allow only one specific domain
 app.use(
   cors({
-    origin: "https://mary-snopok-auth-project.herokuapp.com/",
+    origin: "mary-snopok-auth-project.herokuapp.com",
   })
 );
 
 // v3 - Allow multiple domains
 
-const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com/", "http://localhost:3000", "http://localhost:8080"];
+const allowedDomains = ["mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
 app.use(
   cors({
     origin: (origin, callback) => {
