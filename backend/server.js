@@ -38,15 +38,15 @@ const app = express();
 // app.use(cors());
 
 // v2 - Allow only one specific domain
-app.use(
-  cors({
-    origin: "mary-snopok-auth-project.herokuapp.com",
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://mary-snopok-auth-project.herokuapp.com",
+//   })
+// );
 
 // v3 - Allow multiple domains
 
-const allowedDomains = ["mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
+const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
 app.use(
   cors({
     origin: (origin, callback) => {
