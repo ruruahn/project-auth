@@ -50,6 +50,7 @@ const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http:
 app.use(
   cors({
     origin: (origin, callback) => {
+      // https://stackoverflow.com/a/63684532/16657232
       if (!origin || allowedDomains.includes(origin)) {
         return callback(null, true);
       } else {
