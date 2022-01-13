@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import demoData from "../frontend/src/data/demo.json";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/authAPI";
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -26,6 +27,26 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
+const ThoughtSchema = new mongoose.Schema({
+  message: {
+    type: String,
+    required: true,
+  },
+});
+
+const Thought = mongoose.model("Thought", ThoughtSchema);
+
+const seedDatabase = async () => {
+  await Thought.deleteMany({});
+
+  demoData.forEach((item) => {
+    const newThought = new Thought(item);
+    newThought.save();
+  });
+};
+
+seedDatabase();
+
 // Defines the port the app will run on. Defaults to 8080, but can be
 // overridden when starting the server. For example:
 //
@@ -35,7 +56,7 @@ const app = express();
 
 // Add middlewares to enable cors and json body parsing
 // v1 - Allow all domains
-// app.use(cors());
+app.use(cors());
 
 // v2 - Allow only one specific domain
 // app.use(
@@ -46,19 +67,19 @@ const app = express();
 
 // v3 - Allow multiple domains
 
-const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // https://stackoverflow.com/a/63684532/16657232
-      if (!origin || allowedDomains.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("This domain is not allowed"), false);
-      }
-    },
-  })
-);
+// const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       // https://stackoverflow.com/a/63684532/16657232
+//       if (!origin || allowedDomains.includes(origin)) {
+//         return callback(null, true);
+//       } else {
+//         return callback(new Error("This domain is not allowed"), false);
+//       }
+//     },
+//   })
+// );
 
 app.use(express.json());
 
@@ -83,8 +104,20 @@ const authenticateUser = async (req, res, next) => {
 // Start defining your routes here
 
 app.get("/thoughts", authenticateUser);
-app.get("/thoughts", (req, res) => {
-  res.send("Here are your thoughts");
+app.get("/thoughts", async (req, res) => {
+  const thoughts = await Thought.find({});
+  res.status(201).json({ response: thoughts, success: true });
+});
+
+app.post("/thoughts", async (req, res) => {
+  const { message } = req.body;
+
+  try {
+    const newThought = await new Thought({ message }).save();
+    res.status(201).json({ response: newThought, success: true });
+  } catch (error) {
+    res.status(400).json({ response: error, success: false });
+  }
 });
 
 app.post("/signup", async (req, res) => {
