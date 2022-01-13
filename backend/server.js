@@ -67,7 +67,12 @@ const app = express();
 
 // v3 - Allow multiple domains
 
-const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
+const allowedDomains = [
+  "https://mary-snopok-auth-project.herokuapp.com",
+  "https://autentification-mary-ru.netlify.app/",
+  "http://localhost:3000",
+  "http://localhost:8080",
+];
 app.use(
   cors({
     origin: (origin, callback) => {
