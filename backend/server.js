@@ -56,7 +56,7 @@ const app = express();
 
 // Add middlewares to enable cors and json body parsing
 // v1 - Allow all domains
-app.use(cors());
+// app.use(cors());
 
 // v2 - Allow only one specific domain
 // app.use(
@@ -67,19 +67,19 @@ app.use(cors());
 
 // v3 - Allow multiple domains
 
-// const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       // https://stackoverflow.com/a/63684532/16657232
-//       if (!origin || allowedDomains.includes(origin)) {
-//         return callback(null, true);
-//       } else {
-//         return callback(new Error("This domain is not allowed"), false);
-//       }
-//     },
-//   })
-// );
+const allowedDomains = ["https://mary-snopok-auth-project.herokuapp.com", "http://localhost:3000", "http://localhost:8080"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // https://stackoverflow.com/a/63684532/16657232
+      if (!origin || allowedDomains.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("This domain is not allowed"), false);
+      }
+    },
+  })
+);
 
 app.use(express.json());
 
