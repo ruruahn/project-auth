@@ -1,6 +1,6 @@
 # Project Auth
 
-Building an authentification functionality for user sign up and log in .
+Building an authentification functionality for user sign up and log in to private content.
 
 ## Tech Stack: JS, React, Redux, Material UI, MongoDB, Mongoose, Nodejs.
 
