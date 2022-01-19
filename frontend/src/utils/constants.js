@@ -1,3 +1,3 @@
-const BASE_URL = "https://mary-snopok-auth-project.herokuapp.com";
+const BASE_URL = "#";
 
 export const API_URL = (slug) => `${BASE_URL}/${slug}`;
